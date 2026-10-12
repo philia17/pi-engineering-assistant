@@ -5,7 +5,7 @@ language models, retrieval, deterministic calculators and an inspectable web int
 The standalone calculator demo runs offline on an ordinary computer, without a model
 or a Raspberry Pi.
 
-[Project overview](https://siheng-ye-portfolio.minjunc1984.chatgpt.site/#assistant-title)
+[Project overview](https://philia17.github.io/#assistant-title)
 
 ## What is included
 
