@@ -1,0 +1,74 @@
+[tool.ruff]
+target-version = "py310"
+line-length = 100
+
+[tool.ruff.lint]
+select = [
+    "E",      # pycodestyle errors
+    "W",      # pycodestyle warnings
+    "F",      # Pyflakes
+    "I",      # isort
+    "N",      # pep8-naming
+    "UP",     # pyupgrade
+    "B",      # flake8-bugbear
+    "SIM",    # flake8-simplify
+]
+ignore = []
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*.py" = ["D", "E501"]  # Allow missing docstrings / long fixtures in tests
+"src/em_agent.py" = ["E501"]
+"src/tools/eecc_calculators.py" = ["E501"]
+"src/tools/em_calculators.py" = ["E501"]
+"src/tools/formula_classifier.py" = ["E501"]
+"src/tools/variable_extractor.py" = ["E501"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["src", "rag", "web_ui"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
+
+[tool.mypy]
+strict = true
+python_version = "3.10"
+ignore_missing_imports = false
+warn_unused_ignores = false
+warn_redundant_casts = true
+warn_unused_configs = true
+show_error_codes = true
+
+[[tool.mypy.overrides]]
+module = [
+    "langchain.*",
+    "langchain_classic.*",
+    "langchain_community.*",
+    "langchain_core.*",
+    "langchain_huggingface.*",
+    "langchain_text_splitters.*",
+    "chromadb.*",
+    "jsonschema.*",
+    "llama_cpp.*",
+    "llama_cpp_python.*",
+    "numpy.*",
+    "PIL.*",
+    "sentence_transformers.*",
+    "unstructured.*",
+]
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = "test_*.py"
+python_functions = "test_*"
+pythonpath = ["."]
+
+[tool.commitizen]
+name = "cz_conventional_commits"
+tag_format = "v$version"
+version_scheme = "pep440"
+version_provider = "scm"
+update_changelog_on_bump = true

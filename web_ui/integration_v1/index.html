@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>EEE Study Assistant — Unified v1</title>
+    <link rel="stylesheet" href="/static/integration-v1/styles.css?v=ui-36" />
+    <link
+      rel="stylesheet"
+      href="/static/integration-v1/vendor/katex-0.16.22/katex.min.css"
+      integrity="sha384-5TcZemv2l/9On385z///+d7MSYlvIEw9FuZTIdZ14vJLqWphw7e7ZPuOiCHJcFCP"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="/static/integration-v1/vendor/mathlive-0.110.0/mathlive-fonts.css"
+    />
+    <script
+      defer
+      src="/static/integration-v1/vendor/katex-0.16.22/katex.min.js"
+      integrity="sha384-cMkvdD8LoxVzGF/RPUKAcvmm49FQ0oxwDF3BGKtDXcEc+T1b2N+teh/OJfpU0jr6"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <div class="chat-app" id="app-shell" data-auth-status="pending">
+      <aside class="sidebar" id="sidebar" aria-label="Study assistant navigation">
+        <div class="sidebar-top">
+          <a class="brand" href="/" aria-label="EEE Study Assistant home">
+            <span class="brand-mark" aria-hidden="true">E</span>
+            <span class="brand-label">EEE Study Assistant</span>
+          </a>
+          <button class="new-chat-button" id="new-chat" type="button" aria-label="New chat">
+            <span aria-hidden="true">＋</span><span class="new-chat-label">New chat</span>
+          </button>
+          <button class="sidebar-close" id="sidebar-close" type="button" aria-label="Close navigation">✕</button>
+        </div>
+        <div class="sidebar-section recent-section">
+          <p class="sidebar-label">RECENT CHATS</p>
+          <div class="empty-history" id="recent-chats-empty">Your recent questions will appear here.</div>
+          <ul class="recent-chats" id="recent-chats-list" aria-label="Saved local chats"></ul>
+        </div>
+        <div class="sidebar-footer">
+          <button class="logout-button" id="logout-button" type="button" hidden>Log out</button>
+          <div class="service-line"><span class="status-dot" aria-hidden="true"></span><span id="service-status" aria-live="polite">Checking service…</span></div>
+          <span class="sidebar-note">Unified agent · Engineering Preview indexes</span>
+        </div>
+        <div class="sidebar-rail-controls">
+          <button class="sidebar-toggle" id="sidebar-toggle" type="button" aria-controls="sidebar" aria-expanded="true" aria-label="Collapse sidebar">
+            <span class="sidebar-toggle-icon" id="sidebar-toggle-icon" aria-hidden="true">«</span>
+            <span class="sidebar-toggle-label" id="sidebar-toggle-label">Collapse sidebar</span>
+          </button>
+        </div>
+      </aside>
+
+      <div class="main-panel">
+        <header class="chat-header">
+          <button class="menu-button" id="menu-button" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">☰</button>
+          <div class="header-title"><span class="header-kicker">EEE COURSE NOTES</span><span class="header-context" id="header-context" hidden aria-hidden="true"></span></div>
+          <div class="header-controls">
+            <span id="mode-control" hidden><input id="mode" name="mode" type="hidden" value="preview" /></span>
+            <span class="preview-label" id="review-badge">Unified</span>
+            <span class="preview-label mode-badge" id="mode-badge">Engineering Preview · loading</span>
+          </div>
+        </header>
+        <p class="lock-notice" id="lock-notice" hidden aria-live="polite">Subject and model can change between questions.</p>
+        <p class="mode-notice" id="mode-notice" aria-live="polite">Engineering Preview · 8/8: all subjects are available in preview.</p>
+        <p class="mode-notice" id="session-expiry" aria-live="polite" hidden></p>
+        <nav class="activity-tabs" role="tablist" aria-label="Study activity">
+          <button class="activity-tab" id="ask-tab" type="button" role="tab" aria-controls="ask" aria-selected="true">Ask</button>
+          <button class="activity-tab" id="quiz-tab" type="button" role="tab" aria-controls="quiz-activity" aria-selected="false">Quiz</button>
+        </nav>
+
+        <label id="subject-control" for="subject" hidden>Ask subject
+          <select id="subject" name="subject" required disabled hidden aria-hidden="true"><option value="" disabled>Loading…</option></select>
+        </label>
+
+        <section class="auth-gate" id="auth-gate" aria-labelledby="auth-gate-title" hidden>
+          <div class="auth-card">
+            <div class="auth-brand" aria-label="EEE Study Assistant">
+              <span class="auth-brand-mark" aria-hidden="true">E</span>
+              <span>EEE Study Assistant</span>
+            </div>
+            <h2 id="auth-gate-title">Sign in</h2>
+            <p class="auth-copy">Enter your access key to continue.</p>
+            <form id="auth-form" novalidate>
+              <label for="access-key">Access key</label>
+              <input id="access-key" name="access_key" type="password" autocomplete="off" spellcheck="false" required />
+              <button id="auth-submit" class="auth-submit" type="submit">Sign in</button>
+            </form>
+            <p id="auth-gate-error" class="auth-error" role="alert" aria-live="polite" hidden></p>
+          </div>
+        </section>
+
+        <main class="chat-scroll" id="chat-scroll">
+          <section class="ask-activity" id="ask" role="tabpanel" aria-labelledby="ask-tab">
+            <section class="empty-state" id="empty-state">
+              <div class="empty-icon" aria-hidden="true">E</div>
+              <p class="section-label">SUBJECT-SCOPED KNOWLEDGE RETRIEVAL</p>
+              <h1 id="empty-title">Ask your course notes.</h1>
+              <p>Type <code>@</code> to choose a subject, then ask a question grounded in the EEE study-note collection.</p>
+              <div class="suggestion-cloud" id="example-questions" aria-label="Example questions"></div>
+            </section>
+
+            <section class="thread" id="messages" hidden aria-label="Conversation" aria-live="polite"></section>
+          </section>
+
+          <section class="quiz-activity" id="quiz-activity" role="tabpanel" aria-labelledby="quiz-tab" hidden>
+            <div class="quiz-setup" id="quiz-setup">
+              <p class="section-label">LOCAL ENGINEERING PREVIEW</p>
+              <h1 id="quiz-title">Course Quiz</h1>
+              <p>Select a subject, Topic, and optional Knowledge Point to answer course questions.</p>
+              <label class="quiz-topic-label" for="quiz-subject">Subject
+                <select id="quiz-subject" required disabled><option value="" selected>Loading…</option></select>
+              </label>
+              <label class="quiz-topic-label" for="quiz-topic">Topic
+                <select id="quiz-topic" required disabled><option value="" selected>Choose a subject first</option></select>
+              </label>
+              <label class="quiz-topic-label" for="quiz-knowledge-point">Knowledge Point <span>(optional)</span>
+                <select id="quiz-knowledge-point" disabled><option value="" selected>Choose a Topic first</option></select>
+              </label>
+              <label class="quiz-topic-label" for="quiz-question-count">Questions
+                <select id="quiz-question-count"><option value="1">1</option><option value="3" selected>3</option><option value="5">5</option><option value="7">7</option><option value="10">10</option></select>
+              </label>
+              <p class="quiz-fixed-count">Four choices · one question at a time · generated from the selected course notes</p>
+              <button id="quiz-start" class="quiz-primary" type="button">Start Quiz</button>
+            </div>
+            <section class="quiz-loading" id="quiz-loading" role="status" aria-live="polite" hidden>
+              <span class="quiz-loading-spinner" aria-hidden="true"></span>
+              <div class="quiz-loading-copy">
+                <strong id="quiz-loading-label">Generating question…</strong>
+                <p id="quiz-loading-detail">The local model is selecting a source-bound question from the selected course notes.</p>
+                <div class="quiz-generation-track" aria-hidden="true"><span></span></div>
+              </div>
+            </section>
+            <article class="quiz-card" id="quiz-card" hidden>
+              <p class="quiz-progress" id="quiz-progress"></p>
+              <div class="quiz-progress-track" id="quiz-progress-track" role="progressbar" aria-label="Quiz progress" aria-valuemin="0" aria-valuemax="5" aria-valuenow="0"><span id="quiz-progress-fill"></span></div>
+              <h2 class="quiz-prompt" id="quiz-prompt"></h2>
+              <fieldset class="quiz-options" id="quiz-options"></fieldset>
+              <div class="quiz-actions">
+                <button id="quiz-submit" class="quiz-primary" type="button" disabled>Check Answer</button>
+                <button id="quiz-next" type="button" hidden>Next Question</button>
+                <button id="quiz-finish" type="button" hidden>See Results</button>
+              </div>
+              <section class="quiz-feedback" id="quiz-feedback" aria-live="polite" hidden></section>
+            </article>
+            <section class="quiz-summary" id="quiz-summary" aria-live="polite" hidden></section>
+            <div class="quiz-actions">
+              <button id="quiz-exit" class="quiz-exit" type="button" hidden>Exit Quiz</button>
+            </div>
+            <p class="quiz-error" id="quiz-error" role="alert" aria-live="polite" hidden></p>
+          </section>
+        </main>
+
+        <form id="answer-form" class="composer-shell">
+          <div class="subject-mention-menu" id="subject-mention-menu" role="listbox" aria-label="Choose a course subject" hidden></div>
+          <label class="composer-box" for="question">
+            <textarea id="question" name="question" rows="1" maxlength="4000" placeholder="Ask anything about your course notes… Type @ for a subject" aria-controls="subject-mention-menu" required disabled></textarea>
+            <div class="composer-actions">
+              <button id="formula-button" class="formula-button" type="button" aria-haspopup="dialog" aria-controls="math-dialog">Formula</button>
+              <label class="attach-button" for="image" title="Attach an image">
+                <input id="image" name="image" type="file" accept="image/png,image/jpeg,image/webp" disabled />
+                <span aria-hidden="true">＋</span><span class="attach-text">Attach image</span>
+              </label>
+              <span class="file-name" id="file-name">No image selected</span>
+              <button id="submit" class="send-button" type="submit" disabled aria-label="Send question">↑</button>
+            </div>
+          </label>
+          <section class="math-preview" id="math-preview" aria-live="polite" hidden>
+            <span>Formula preview</span>
+            <div id="math-preview-body"></div>
+          </section>
+          <div class="composer-footer">
+            <label class="composer-model-control" id="model-control"><span>Model</span><select id="model" name="model" required disabled><option>Loading…</option></select></label>
+            <span id="model-note">Only allowlisted models are shown.</span>
+          </div>
+        </form>
+        <dialog class="math-dialog" id="math-dialog" aria-labelledby="math-dialog-title">
+          <div class="math-dialog-heading">
+            <div>
+              <p class="section-label">FORMULA EDITOR</p>
+              <h2 id="math-dialog-title">Insert formula</h2>
+            </div>
+            <button id="math-dialog-close" class="math-dialog-close" type="button" aria-label="Cancel formula editing">✕</button>
+          </div>
+          <math-field id="math-field" aria-label="LaTeX formula" virtual-keyboard-mode="onfocus"></math-field>
+          <div class="math-dialog-footer">
+            <label for="math-display-mode">Placement
+              <select id="math-display-mode">
+                <option value="inline">Inline</option>
+                <option value="display">Display</option>
+              </select>
+            </label>
+            <span id="math-dialog-error" class="math-dialog-error" role="alert" hidden></span>
+            <button id="math-dialog-cancel" type="button">Cancel</button>
+            <button id="math-dialog-insert" class="math-dialog-insert" type="button">Insert formula</button>
+          </div>
+        </dialog>
+      </div>
+    </div>
+
+    <template id="turn-template">
+      <div class="turn">
+        <article class="user-message">
+          <div class="user-bubble"></div>
+          <time class="turn-time user-turn-time"></time>
+        </article>
+        <article class="assistant-message">
+          <div class="assistant-avatar" aria-hidden="true">E</div>
+          <div class="assistant-content">
+            <div class="message-heading">
+              <strong class="answer-title"></strong>
+              <span class="response-status" role="status" aria-live="polite"></span>
+              <time class="turn-time assistant-turn-time"></time>
+            </div>
+            <div class="answer-body"></div>
+            <details class="detail-card worked-solution-card" open hidden></details>
+            <dl class="answer-meta" hidden></dl>
+            <details class="detail-card toolchain-card" open hidden></details>
+            <details class="detail-card vision-card" hidden>
+              <summary><span>Image analysis JSON</span><span class="vision-status"></span></summary>
+              <pre class="vision-json"></pre>
+            </details>
+            <div class="turn-error" hidden>
+              <p class="error-message"></p>
+              <button class="retry-button" type="button">Retry</button>
+            </div>
+          </div>
+        </article>
+      </div>
+    </template>
+
+    <script src="/static/integration-v1/vendor/mathlive-0.110.0/mathlive.min.js"></script>
+    <script src="/static/integration-v1/app.js?v=ui-36"></script>
+  </body>
+</html>

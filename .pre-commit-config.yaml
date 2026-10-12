@@ -1,0 +1,48 @@
+repos:
+  # ── Integrity checks ──────────────────────────────────────────────
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: check-added-large-files
+        args: ["--maxkb=3072"]
+      - id: check-merge-conflict
+      - id: trailing-whitespace
+        exclude: ^web_ui/integration_v1/vendor/
+      - id: end-of-file-fixer
+        exclude: ^web_ui/integration_v1/vendor/
+      - id: debug-statements
+      - id: detect-private-key
+
+  # ── File-format validation ────────────────────────────────────────
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: check-yaml
+      - id: check-toml
+      - id: check-json
+
+  # ── Ruff lint ─────────────────────────────────────────────────────
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.12.0
+    hooks:
+      - id: ruff
+        args: [--fix]
+      - id: ruff-format
+
+  # ── Mypy type checking ────────────────────────────────────────────
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.19.0
+    hooks:
+      - id: mypy
+        pass_filenames: false
+        args: [src]
+        additional_dependencies:
+          - pydantic
+          - fastapi
+
+  # ── Commit message ────────────────────────────────────────────────
+  - repo: https://github.com/commitizen-tools/commitizen
+    rev: v4.7.0
+    hooks:
+      - id: commitizen
+        stages: [commit-msg]

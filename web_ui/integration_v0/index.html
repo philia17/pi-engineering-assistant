@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>EEE Study Assistant — Integration v0</title>
+    <link rel="stylesheet" href="/static/integration-v0/styles.css?v=chat-2" />
+  </head>
+  <body>
+    <div class="chat-app">
+      <aside class="sidebar" id="sidebar" aria-label="Study assistant navigation">
+        <div class="sidebar-top">
+          <a class="brand" href="/" aria-label="EEE Study Assistant home">
+            <span class="brand-mark" aria-hidden="true">E</span>
+            <span>EEE Study Assistant</span>
+          </a>
+          <button class="new-chat-button" id="new-chat" type="button"><span aria-hidden="true">＋</span> New chat</button>
+        </div>
+        <div class="sidebar-section">
+          <p class="sidebar-label">RECENT CHATS</p>
+          <div class="empty-history">Your recent questions will appear here.</div>
+        </div>
+        <div class="sidebar-section subjects-section">
+          <p class="sidebar-label">SUBJECTS</p>
+          <nav id="subject-nav" class="subject-nav" aria-label="Subjects"></nav>
+        </div>
+        <div class="sidebar-footer">
+          <div class="service-line"><span class="status-dot" aria-hidden="true"></span><span id="service-status" aria-live="polite">Checking service…</span></div>
+          <span class="sidebar-note">Preview mode · 8 subject indexes</span>
+        </div>
+      </aside>
+
+      <div class="main-panel">
+        <header class="chat-header">
+          <button class="menu-button" id="menu-button" type="button" aria-label="Open navigation">☰</button>
+          <div class="header-title"><span class="header-kicker">EEE COURSE NOTES</span><span class="header-context" id="header-context">Subject-scoped assistant</span></div>
+          <div class="header-controls">
+            <label class="compact-control" id="subject-control"><span>Subject</span><select id="subject" name="subject" required disabled><option>Loading…</option></select></label>
+            <label class="compact-control model-control" id="model-control"><span>Model</span><select id="model" name="model" required disabled><option>Loading…</option></select></label>
+            <span class="preview-label">Preview</span>
+          </div>
+        </header>
+        <p class="lock-notice" id="lock-notice" hidden aria-live="polite">Start a new chat to change subject or model.</p>
+
+        <main class="chat-scroll" id="chat-scroll">
+          <section class="empty-state" id="empty-state" aria-labelledby="empty-title">
+            <div class="empty-icon" aria-hidden="true">E</div>
+            <p class="section-label">SUBJECT-SCOPED KNOWLEDGE RETRIEVAL</p>
+            <h1 id="empty-title">Ask your course notes.</h1>
+            <p>Select a subject above, then ask a question grounded in the EEE study-note collection.</p>
+            <div class="suggestion-row" aria-label="Example questions">
+              <button class="suggestion" type="button" data-question="What is the physical meaning of a gradient?">Meaning of a gradient</button>
+              <button class="suggestion" type="button" data-question="Compare the key conditions for these two concepts.">Compare two concepts</button>
+            </div>
+          </section>
+
+          <section class="thread" id="messages" hidden aria-label="Conversation" aria-live="polite"></section>
+        </main>
+
+        <form id="answer-form" class="composer-shell">
+          <label class="composer-box" for="question">
+            <textarea id="question" name="question" rows="1" maxlength="4000" placeholder="Ask anything about your course notes…" required></textarea>
+            <div class="composer-actions">
+              <label class="attach-button" for="image" title="Attach an image">
+                <input id="image" name="image" type="file" accept="image/png,image/jpeg,image/webp" />
+                <span aria-hidden="true">＋</span><span class="attach-text">Attach image</span>
+              </label>
+              <span class="file-name" id="file-name">No image selected</span>
+              <button id="submit" class="send-button" type="submit" disabled aria-label="Send question">↑</button>
+            </div>
+          </label>
+          <div class="composer-footer"><span id="model-note">Only allowlisted models are shown.</span><span>Images are temporary and never added to the study corpus.</span></div>
+        </form>
+        <footer class="page-footer"><span>Integration v0 · Functional preview</span><a href="/api/v0/models" target="_blank" rel="noreferrer">Runtime model catalog</a></footer>
+      </div>
+    </div>
+
+    <template id="turn-template">
+      <div class="turn">
+        <article class="user-message">
+          <div class="user-bubble"></div>
+        </article>
+        <article class="assistant-message">
+          <div class="assistant-avatar" aria-hidden="true">E</div>
+          <div class="assistant-content">
+            <div class="message-heading">
+              <strong class="answer-title"></strong>
+              <span class="response-status"></span>
+            </div>
+            <div class="answer-body"></div>
+            <dl class="answer-meta" hidden></dl>
+            <section class="details-grid" hidden>
+              <details class="detail-card" open>
+                <summary><span>Sources</span><span class="summary-meta sources-count">0 sources</span></summary>
+                <ul class="source-list"></ul>
+              </details>
+              <details class="detail-card">
+                <summary><span>Route &amp; review</span><span class="summary-meta">trace</span></summary>
+                <div class="trace-list"></div>
+                <ul class="warning-list"></ul>
+              </details>
+            </section>
+            <details class="detail-card vision-card" hidden>
+              <summary><span>Image analysis JSON</span><span class="vision-status"></span></summary>
+              <pre class="vision-json"></pre>
+            </details>
+            <div class="turn-error" hidden>
+              <p class="error-message"></p>
+              <button class="retry-button" type="button">Retry</button>
+            </div>
+          </div>
+        </article>
+      </div>
+    </template>
+
+    <script src="/static/integration-v0/app.js?v=chat-4"></script>
+  </body>
+</html>

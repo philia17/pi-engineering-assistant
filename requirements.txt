@@ -1,0 +1,15 @@
+langchain-classic
+langchain-community
+langchain-core
+langchain-text-splitters
+chromadb
+fastapi
+jsonschema
+pillow
+python-multipart
+uvicorn[standard]
+requests
+sentence-transformers
+unstructured
+scipy>=1.13.0
+numpy

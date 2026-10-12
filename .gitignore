@@ -1,0 +1,17 @@
+__pycache__/
+*.py[cod]
+.venv/
+.env
+.env.*
+!.env.example
+.pytest_cache/
+.ruff_cache/
+artifacts/
+chroma_db/
+models/
+*.gguf
+*.safetensors
+*.bin
+*.log
+rag/data/
+.mypy_cache/

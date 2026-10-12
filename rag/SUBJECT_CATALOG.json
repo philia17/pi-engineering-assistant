@@ -1,0 +1,176 @@
+{
+  "schema_version": "1.0",
+  "catalog_type": "rag_v1_subject_catalog",
+  "subject_count": 8,
+  "formal_note_count": 0,
+  "subjects": [
+    {
+      "subject": "PE",
+      "name": "Power and Energy",
+      "module": "GENERIC",
+      "year": 0,
+      "data_dir": "rag/data/pe",
+      "formal_note_count": 0,
+      "owners": [],
+      "source_owners": [],
+      "source_owner_state": "not_supplied",
+      "review_status_counts": {
+        "draft": 0,
+        "technical_review": 0,
+        "reviewed": 0
+      },
+      "index_state": "not_built",
+      "evaluation_state": "not_included",
+      "source_manifest_ref": {
+        "status": "not_supplied"
+      }
+    },
+    {
+      "subject": "IS",
+      "name": "Information and Systems",
+      "module": "GENERIC",
+      "year": 0,
+      "data_dir": "rag/data/is",
+      "formal_note_count": 0,
+      "owners": [],
+      "source_owners": [],
+      "source_owner_state": "not_supplied",
+      "review_status_counts": {
+        "draft": 0,
+        "technical_review": 0,
+        "reviewed": 0
+      },
+      "index_state": "not_built",
+      "evaluation_state": "not_included",
+      "source_manifest_ref": {
+        "status": "not_supplied"
+      }
+    },
+    {
+      "subject": "EM",
+      "name": "Engineering Mathematics",
+      "module": "GENERIC",
+      "year": 0,
+      "data_dir": "rag/data/em",
+      "formal_note_count": 0,
+      "owners": [],
+      "source_owners": [],
+      "source_owner_state": "not_supplied",
+      "review_status_counts": {
+        "draft": 0,
+        "technical_review": 0,
+        "reviewed": 0
+      },
+      "index_state": "not_built",
+      "evaluation_state": "not_included",
+      "source_manifest_ref": {
+        "status": "not_supplied"
+      }
+    },
+    {
+      "subject": "SEP",
+      "name": "Software Engineering Programming",
+      "module": "GENERIC",
+      "year": 0,
+      "data_dir": "rag/data/sep",
+      "formal_note_count": 0,
+      "owners": [],
+      "source_owners": [],
+      "source_owner_state": "not_supplied",
+      "review_status_counts": {
+        "draft": 0,
+        "technical_review": 0,
+        "reviewed": 0
+      },
+      "index_state": "not_built",
+      "evaluation_state": "not_included",
+      "source_manifest_ref": {
+        "status": "not_supplied"
+      }
+    },
+    {
+      "subject": "EECC",
+      "name": "Electrical Energy Conditioning and Control",
+      "module": "GENERIC",
+      "year": 0,
+      "data_dir": "rag/data/eecc",
+      "formal_note_count": 0,
+      "owners": [],
+      "source_owners": [],
+      "source_owner_state": "not_supplied",
+      "review_status_counts": {
+        "draft": 0,
+        "technical_review": 0,
+        "reviewed": 0
+      },
+      "index_state": "not_built",
+      "evaluation_state": "not_included",
+      "source_manifest_ref": {
+        "status": "not_supplied"
+      }
+    },
+    {
+      "subject": "EPC",
+      "name": "Electronic Processing and Communications",
+      "module": "GENERIC",
+      "year": 0,
+      "data_dir": "rag/data/epc",
+      "formal_note_count": 0,
+      "owners": [],
+      "source_owners": [],
+      "source_owner_state": "not_supplied",
+      "review_status_counts": {
+        "draft": 0,
+        "technical_review": 0,
+        "reviewed": 0
+      },
+      "index_state": "not_built",
+      "evaluation_state": "not_included",
+      "source_manifest_ref": {
+        "status": "not_supplied"
+      }
+    },
+    {
+      "subject": "MMT",
+      "name": "Modelling: Methods and Tools",
+      "module": "GENERIC",
+      "year": 0,
+      "data_dir": "rag/data/mmt",
+      "formal_note_count": 0,
+      "owners": [],
+      "source_owners": [],
+      "source_owner_state": "not_supplied",
+      "review_status_counts": {
+        "draft": 0,
+        "technical_review": 0,
+        "reviewed": 0
+      },
+      "index_state": "not_built",
+      "evaluation_state": "not_included",
+      "source_manifest_ref": {
+        "status": "not_supplied"
+      }
+    },
+    {
+      "subject": "DIES",
+      "name": "Design and Implementation of Engineering Software",
+      "module": "GENERIC",
+      "year": 0,
+      "data_dir": "rag/data/dies",
+      "formal_note_count": 0,
+      "owners": [],
+      "source_owners": [],
+      "source_owner_state": "not_supplied",
+      "review_status_counts": {
+        "draft": 0,
+        "technical_review": 0,
+        "reviewed": 0
+      },
+      "index_state": "not_built",
+      "evaluation_state": "not_included",
+      "source_manifest_ref": {
+        "status": "not_supplied"
+      }
+    }
+  ]
+}
