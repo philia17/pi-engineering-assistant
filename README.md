@@ -7,8 +7,6 @@ or a Raspberry Pi.
 
 [Project overview](https://philia17.github.io/research/pi-engineering-assistant/)
 
-A small [browser-only companion calculator](https://philia17.github.io/demos/engineering-calculator/) illustrates formula and calculation traces with generic circuit examples. It is separate from the original research implementation and benchmark.
-
 ## What is included
 
 - Deterministic calculators for power converters, transformers, phasors, statistics,
