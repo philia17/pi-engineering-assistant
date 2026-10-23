@@ -5,7 +5,7 @@ language models, retrieval, deterministic calculators and an inspectable web int
 The standalone calculator demo runs offline on an ordinary computer, without a model
 or a Raspberry Pi.
 
-[Project overview](https://philia17.github.io/#assistant-title)
+[Project overview](https://philia17.github.io/research/pi-engineering-assistant/)
 
 ## What is included
 
